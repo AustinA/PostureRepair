@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/current_position"
+            android:icon="@drawable/current_position"
+            android:title="Current Position" />
+        <item
+            android:id="@+id/live_input"
+            android:icon="@drawable/live_output"
+            android:title="Live Input" />
+        <item
+            android:id="@+id/collected_data"
+            android:icon="@drawable/collected_data"
+            android:title="Collected Data" />
+    </group>
+
+</menu>
