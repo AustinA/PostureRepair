@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements
     private LinearLayout buttom_Buttons = null;
     private Button snapButton = null;
     private Button clearHistory = null;
+    private ImageView currentPosition = null;
 
 
     @Override
@@ -307,12 +309,13 @@ public class MainActivity extends AppCompatActivity implements
             buttom_Buttons.setVisibility(View.GONE);
             snapButton.setVisibility(View.GONE);
             clearHistory.setVisibility(View.GONE);
+            currentPosition.setVisibility(View.VISIBLE);
 
             visualMode = newMode;
         } else if (newMode == VisualMode.LIVE_INPUT) {
             savedOutputTextView.setVisibility(View.VISIBLE);
             savedOutputScrollView.setVisibility(View.VISIBLE);
-
+            currentPosition.setVisibility(View.GONE);
             buttom_Buttons.setVisibility(View.VISIBLE);
             snapButton.setVisibility(View.VISIBLE);
             clearHistory.setVisibility(View.VISIBLE);
@@ -324,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements
             savedOutputTextView.setVisibility(View.GONE);
             savedOutputScrollView.setVisibility(View.GONE);
             buttom_Buttons.setVisibility(View.GONE);
+            currentPosition.setVisibility(View.GONE);
             snapButton.setVisibility(View.GONE);
             clearHistory.setVisibility(View.GONE);
 
@@ -340,6 +344,7 @@ public class MainActivity extends AppCompatActivity implements
         buttom_Buttons = (LinearLayout) findViewById(R.id.live_input_buttons);
         snapButton = (Button) findViewById(R.id.snap_bottom_free_btn);
         clearHistory = (Button) findViewById(R.id.clear_raw_input);
+        currentPosition = (ImageView) findViewById(R.id.live_image_view);
 
         snapButton.setOnClickListener(new View.OnClickListener() {
             @Override
