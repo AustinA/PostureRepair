@@ -6,6 +6,9 @@ package duhblea.me.posturerepair;
  * Current Position
  * Live Input
  * Collected Data
+ *
+ * @author Austin Alderton
+ * @version 10 October 2016
  */
 
 public enum VisualMode {

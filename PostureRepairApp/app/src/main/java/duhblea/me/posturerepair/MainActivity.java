@@ -29,6 +29,7 @@ import android.widget.ScrollView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
@@ -95,13 +96,11 @@ public class MainActivity extends AppCompatActivity implements
     StringBuffer strBuff = new StringBuffer();
 
 
-
     private BroadcastReceiver serverReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals(CommsConstants.ACTION_SAMPLE_DATA))
-            {
+            if (intent.getAction().equals(CommsConstants.ACTION_SAMPLE_DATA)) {
                 double received[] = intent.getDoubleArrayExtra(CommsConstants.INTENT_SAMPLE_DATA);
 
                 Sample theSample = new Sample();
@@ -120,8 +119,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 strBuff.append(theSample.toString());
 
-                if (visualMode == VisualMode.LIVE_INPUT)
-                {
+                if (visualMode == VisualMode.LIVE_INPUT) {
                     uiThreadHandler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -135,8 +133,7 @@ public class MainActivity extends AppCompatActivity implements
                     });
                 }
 
-                if (!bno055IsConfigured)
-                {
+                if (!bno055IsConfigured) {
                     bno055IsConfigured = true;
                     uiThreadHandler.post(new Runnable() {
                         @Override
@@ -147,8 +144,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
 
 
-            }
-            else if (intent.getAction().equals(CommsConstants.ACTION_BNO055_CONF)) {
+            } else if (intent.getAction().equals(CommsConstants.ACTION_BNO055_CONF)) {
                 if (bno055IsConfigured) {
                     bno055IsConfigured = false;
                     uiThreadHandler.post(new Runnable() {
@@ -163,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
     };
-
 
 
     @Override
@@ -197,13 +192,12 @@ public class MainActivity extends AppCompatActivity implements
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        startServiceIntent = new Intent (MainActivity.this, BluetoothCommService.class);
+        startServiceIntent = new Intent(MainActivity.this, BluetoothCommService.class);
         startServiceIntent.setAction(CommsConstants.ACTION_CONNECT_BT);
 
 
         dataConditioner = new Thread(new DataConditioner());
         dataConditioner.start();
-
 
 
         // Application specific instantation
@@ -304,28 +298,26 @@ public class MainActivity extends AppCompatActivity implements
 
         LocalBroadcastManager.getInstance(MainActivity.this).unregisterReceiver(serverReceiver);
 
-    if(dataConditioner!=null)
+        if (dataConditioner != null)
 
-    {
-        try {
-            dataConditioner.notify();
-            dataConditioner.interrupt();
-            dataConditioner.join(1000);
-        } catch (Exception e) {
-            Log.e("PostureRepair", "Closing thread in onDestroy: " + e.getMessage());
+        {
+            try {
+                dataConditioner.notify();
+                dataConditioner.interrupt();
+                dataConditioner.join(1000);
+            } catch (Exception e) {
+                Log.e("PostureRepair", "Closing thread in onDestroy: " + e.getMessage());
+            }
+        }
+
+        timeCounter.saveTimes();
+
+        if (wakeLock.isHeld())
+
+        {
+            wakeLock.release();
         }
     }
-
-    timeCounter.saveTimes();
-
-    if(wakeLock.isHeld())
-
-    {
-        wakeLock.release();
-    }
-}
-
-
 
 
     /**
@@ -416,7 +408,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-
     /**
      * Worker thread that iterates over received synchronized Hash Map and updates the position
      * current position on the screen and determines if the position is bad enough to warrant
@@ -430,17 +421,13 @@ public class MainActivity extends AppCompatActivity implements
 
                 synchronized (receivedSamples) {
 
-                    try
-                    {
+                    try {
                         receivedSamples.wait();
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    if (visualMode == VisualMode.CURRENT_POSITION && savedPosition != null && receivedSamples.size() > 0)
-                    {
+                    if (visualMode == VisualMode.CURRENT_POSITION && savedPosition != null && receivedSamples.size() > 0) {
                         Sample theSample = receivedSamples.get(receivedSamples.size() - 1);
 
                         final long index = Math.round(savedPosition.getY() - theSample.getY());
@@ -467,9 +454,7 @@ public class MainActivity extends AppCompatActivity implements
                                     } else if (index > 6 && index < 10) {
                                         currentPosition.setImageResource(R.drawable.h);
                                     }
-                                }
-                                else
-                                {
+                                } else {
                                     currentPosition.setImageResource(R.drawable.a);
                                 }
                             }
@@ -482,39 +467,39 @@ public class MainActivity extends AppCompatActivity implements
                             int good = 0;
                             int bad = 0;
 
-                                for (Sample theSample : receivedSamples) {
-                                    double difference = savedPosition.getY() - theSample.getY();
-                                    if (difference >= 0 && difference >= 5) {
-                                        bad++;
-                                        timeCounter.incrementBadTime();
-                                    } else {
-                                        good++;
-                                        timeCounter.incrementGoodTime();
-                                    }
+                            for (Sample theSample : receivedSamples) {
+                                double difference = savedPosition.getY() - theSample.getY();
+                                if (difference >= 0 && difference >= 5) {
+                                    bad++;
+                                    timeCounter.incrementBadTime();
+                                } else {
+                                    good++;
+                                    timeCounter.incrementGoodTime();
                                 }
-
-
-                                if (bad > good) {
-                                    vibrator.vibrate(500);
-                                }
-
-                                uiThreadHandler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        historic.setText(timeCounter.toString());
-
-                                    }
-                                });
-
                             }
-                        }
 
-                        if (receivedSamples.size() >= 20) {
-                            receivedSamples.clear();
+
+                            if (bad > good) {
+                                vibrator.vibrate(500);
+                            }
+
+                            uiThreadHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    historic.setText(timeCounter.toString());
+
+                                }
+                            });
+
                         }
+                    }
+
+                    if (receivedSamples.size() >= 20) {
+                        receivedSamples.clear();
                     }
                 }
             }
         }
+    }
 
 }

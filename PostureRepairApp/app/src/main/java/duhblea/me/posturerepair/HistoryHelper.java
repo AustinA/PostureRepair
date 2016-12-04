@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import java.util.Date;
+
 import java.util.concurrent.TimeUnit;
 
 /**
- * Helper to save and retrieve values from Shared Preferences
+ * Helper to save and retrieve values from Shared Preferences representing time spent in good
+ * and bad position.  Messages are sent every 500 ms, so every tick represents have a second.
  *
- *
+ * @author Austin Alderton
+ * @version 2 December 2016
  */
 public class HistoryHelper {
 
@@ -20,8 +22,7 @@ public class HistoryHelper {
     private SharedPreferences prefs = null;
 
 
-    protected HistoryHelper(Context context)
-    {
+    protected HistoryHelper(Context context) {
         if (context != null) {
             prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -30,6 +31,11 @@ public class HistoryHelper {
         }
     }
 
+    /**
+     * Format the current count of time spend in good position and output to a human readable format
+     *
+     * @return Formatted string in days hours minutes seconds
+     */
     private String getGoodTime() {
         long seconds = good / 1000l;
 
@@ -42,8 +48,12 @@ public class HistoryHelper {
                 + " min, " + second + " secs";
     }
 
-    private String getBadTime()
-    {
+    /**
+     * Format the current count of time spend in bad position and output to a human readable format
+     *
+     * @return Formatted string in days hours minutes seconds
+     */
+    private String getBadTime() {
         long seconds = bad / 1000l;
 
         int day = (int) TimeUnit.SECONDS.toDays(seconds);
@@ -55,8 +65,10 @@ public class HistoryHelper {
                 + " min, " + second + " secs";
     }
 
-    protected void saveTimes()
-    {
+    /**
+     * Save the times to Shared Prefs
+     */
+    protected void saveTimes() {
         SharedPreferences.Editor editor = prefs.edit();
 
         editor.putLong("good", good);
@@ -65,23 +77,32 @@ public class HistoryHelper {
         editor.commit();
     }
 
-    protected void incrementGoodTime()
-    {
+    /**
+     * Tick the good counter
+     */
+
+    protected void incrementGoodTime() {
         good = good + 500;
 
     }
 
-    protected void incrementBadTime()
-    {
+    /**
+     * Tick the bad counter
+     */
+    protected void incrementBadTime() {
         bad = bad + 500;
 
     }
 
 
+    /**
+     * Formatted output stream to update History Text View in Main Activity
+     *
+     * @return
+     */
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getGoodTime() + "\n\n\n\n" + getBadTime();
     }
 }

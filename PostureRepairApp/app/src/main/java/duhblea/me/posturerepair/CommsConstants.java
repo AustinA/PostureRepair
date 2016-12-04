@@ -1,7 +1,10 @@
 package duhblea.me.posturerepair;
 
 /**
- * Created by austin on 12/4/16.
+ * Constants for Intents between Main Activity and Running Intent Service
+ *
+ * @author Austin Alderton
+ * @version 2 December 2016
  */
 
 public class CommsConstants {
@@ -12,5 +15,4 @@ public class CommsConstants {
     protected static final String ACTION_DISCONNECT_BT = "duhblea.me.posturerepair.action.DisconnnectBt";
 
     public static final String INTENT_SAMPLE_DATA = "duhblea.me.posturerepair.intent.sampleData";
-    public static final String INTENT_CONFIG_STATUS = "duhblea.me.posturerepair.intent.configStatus";
 }
