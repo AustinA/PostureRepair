@@ -1,6 +1,5 @@
 package duhblea.me.posturerepair;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -96,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements
     StringBuffer strBuff = new StringBuffer();
 
 
+    /**
+     * Broadcast receiver to receive information from BluetoothCommService
+     */
     private BroadcastReceiver serverReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
