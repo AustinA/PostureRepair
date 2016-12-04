@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     protected void onPause() {
+        timeCounter.saveTimes();
         super.onPause();
 
 
@@ -229,6 +230,9 @@ public class MainActivity extends AppCompatActivity implements
         filter.addAction(CommsConstants.ACTION_BNO055_CONF);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(serverReceiver, filter);
+
+        historic.setText(timeCounter.toString());
+
         super.onResume();
 
     }
@@ -310,8 +314,6 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
-        timeCounter.saveTimes();
-
         if (wakeLock.isHeld())
 
         {
@@ -369,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements
         historyLabel = (TextView) findViewById(R.id.historyLabel);
 
         historyLabel.setText("Posture Posture:    \n\n\n\nBad Posture:    ");
+
 
         fabSaveCurrentPos.setOnClickListener(new View.OnClickListener() {
             @Override
