@@ -13,4 +13,10 @@
         android:title="Disconnect"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_clear_save_pos"
+        android:orderInCategory="100"
+        android:title="Clear Ideal Posture Position"
+        app:showAsAction="never" />
+
 </menu>

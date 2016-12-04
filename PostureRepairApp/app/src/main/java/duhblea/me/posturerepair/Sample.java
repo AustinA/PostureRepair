@@ -99,8 +99,7 @@ public class Sample {
 
     public String toString()
     {
-        String retVal = "Status: " + ((status == null) ? "null" : status.toString())
-                + " | " + "X: " + ((x == null) ? "null" : x.toString())
+        String retVal = "X: " + ((x == null) ? "null" : x.toString())
                 + " | " + "Y: " + ((y == null) ? "null" : y.toString())
                 + " | " + "Z: " + ((z == null) ? "null" : z.toString())
                 + "\n";
