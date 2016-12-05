@@ -264,6 +264,8 @@ public class MainActivity extends AppCompatActivity implements
             return true;
         } else if (id == R.id.action_disconnect) {
             BluetoothCommService.isRunning = false;
+            bno055IsConfigured = false;
+            bnO055StatusSwitch.setChecked(bno055IsConfigured);
             return true;
         } else if (id == R.id.action_clear_save_pos) {
             savedPosition = null;
@@ -405,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements
         clearHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                savedInput = "";
+                strBuff.delete(0, strBuff.length());
                 savedOutputTextView.setText("");
             }
         });
